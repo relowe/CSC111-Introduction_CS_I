@@ -1,0 +1,300 @@
+\documentclass{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{Introduction \& Course Overview}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Syllabus}
+\begin{frame}{Course Description}
+An introduction to computer science and structured programming with
+emphasis on program design and implementation, debugging,
+documentation, and programming projects. Laboratory work supplements
+and expands lecture topics and offers supervised practice using
+programming. 
+\end{frame}
+
+\begin{frame}{Required Materials}
+\begin{itemize}
+    \item {\em Big C++. 3/e}. Cay Horstmann.
+    https://tinyurl.com/bigcpp
+    \item An internet connected computer of some sort.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Grading}
+\begin{tabular}{|l|r|}
+\hline
+{\bf Category} & {\bf Weight}\\
+\hline
+Exams & 30\%\\
+\hline
+Quizzes & 15\% \\
+\hline
+Attendance \& Hands-On Lab Activities & 20\% \\
+\hline
+Programming Assignments & 35\%\\
+\hline
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Academic Honesty}
+\begin{itemize}[<+->]
+    \item Cheating and Plagiarism are Immoral (you are a bad person if
+    you do this).
+    \item Plagiarism is integrating other people's work into your own
+    without attribution.
+    \item Cheating is the wholesale copying of another work.
+    \item Neither Plagiarism or Cheating will be tolerated in any
+    form!
+    \item Acceptable Sources of Code:
+    \begin{itemize}
+        \item Your own original code.
+        \item Code from class examples and lab assignments.
+        \item Code from your textbook.
+    \end{itemize}
+    \item An honest failure is respectable.  Cheating is contemptible.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Course Policy Overview}
+    \begin{itemize}[<+->]
+        \item Do not cheat.
+        \item Deadlines are set, no extensions will be given.
+        \item No late work will be accepted.
+        \item Attendance is mandatory.
+        \item Excused absences are possible, but do not modify any due
+        dates (except in rare circumstances).
+        \item Students with disabilities should contact the academic
+        support center 981-8124 to coordinate accommodations.
+    \end{itemize}
+\end{frame}
+
+\section{Linux Environment}
+
+\begin{frame}{Account Setup \& Logging In}
+\begin{enumerate}[<+->]
+    \item Signup for a free github account: http://github.com 
+    \item Visit https://tinyurl.com/cs111-github to share your github
+    username and real name with me.
+    \item Signup for an MCCS account by visiting
+    https://cs.maryvillecollege.edu/signup
+    \item Click the link in your email to set your password.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Connecting to MCCS}
+
+    \uncover<+->{
+    {\bf Username}: first.last
+    {\bf Server}: cs.maryvillecollege.edu
+    {\bf Port}: 22}
+
+    \begin{description}[<+->]
+        \item[Windows]
+            \begin{enumerate}
+                \item Launch Putty
+                    \includegraphics[width=0.25in]{images/putty}
+                \item Enter the servername.
+                \item Click open
+                \item When prompted, enter your username and then
+                password.
+            \end{enumerate}
+        \hrulefill
+        \item[ChromeOS]
+            \begin{enumerate}
+                \item Install and launch ``Secure Shell''
+                \item Fill in connection details and click ``open''
+            \end{enumerate}
+        \hrulefill
+        \item[MacOS X]
+            \begin{enumerate}
+                \item Launch terminal
+                \includegraphics[width=0.25in]{images/macterm}
+                \item Enter the command: {\tt ssh
+                first.last@cs.maryvillecollege.edu}
+                \item Press enter
+                \item Enter password when prompted.
+            \end{enumerate}
+    \end{description}
+\end{frame}
+
+\begin{frame}{The Linux Command Prompt}
+
+    \begin{itemize}[<+->]
+        \item Commands are entered in the following pattern:
+            {\tt command arg1 arg2...}
+        \item Pressing ``enter'' executes the commands.
+        \item Let's try it out!  Run the following commands:
+            \begin{enumerate}
+                \item {\tt ls}
+                \item {\tt ls -a}
+                \item {\tt ls -l -a}
+                \item {\tt man ls}
+                \item {\tt man man}
+            \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Working With Directories}
+\begin{description}[<+->]
+    \item[{\tt ls}] List files in the current directory
+    \item[{\tt mkdir} {\em name}] Create a Directory
+    \item[{\tt pwd}] Show the present working directory
+    \item[{\tt cd} {\em directory}] Change Directory
+\end{description}
+
+\uncover<+->{Let's try it out!}
+\begin{enumerate}[<+->]
+    \item {\tt mkdir humor}
+    \item {\tt ls}
+    \item {\tt cd humor}
+    \item {\tt pwd}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Working With Files}
+\begin{description}[<+->]
+    \item[{\tt cp} {\em src dest}] Copy a file
+    \item[{\tt mv} {\em src dest}] Move a File
+    \item[{\tt rm} {\em filename}] Remove a file (be careful!)
+    \item[{\tt less} {\em filename}] View a file
+\end{description}
+
+\uncover<+->{Let's try it out!}
+\begin{enumerate}[<+->]
+    \item {\tt cp /home/robert.lowe/humor/bees bess}
+    \item {\tt ls}
+    \item {\tt mv bess bees}
+    \item {\tt ls}
+    \item {\tt rm bees}
+    \item {\tt ls}
+    \item {\tt cp ~robert.lowe/humor/* .}
+    \item {\tt less threes}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Text Editing}
+\begin{itemize}[<+->]
+    \item Programming is about entering text into files.
+    \item A variety of text editors exist.
+    \item People tend to choose friends based on common text editor
+    preferences.
+    \item The most common editors on our system are:
+    \begin{description}
+        \item[{\tt nano}] - A simple editor, original designed for
+        muggles to use with email.
+        \item[{\tt vi}] - Visual Editor a modal text editor.
+        \item[{\tt emacs}] - A very elaborate and powerful editor.
+    \end{description}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Playing Games}
+    \uncover<+->{Let's take a look at games installed on the system!}
+    \begin{enumerate}[<+->]
+       \item {\tt ls /usr/games}
+       \item {\tt ls /usr/local/games}
+       \item Try typing some of the names that came up.  Some of my
+       favorites are:
+       \begin{itemize}
+         \item {\tt tetris-bsd}
+         \item {\tt moon-buggy}
+         \item {\tt lander}
+         \item {\tt robots}
+         \item {\tt fortune}
+         \item {\tt adventure}
+         \item {\tt zork}
+         \item {\tt nethack}
+       \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Homework For Next Time}
+    
+    Play around with the three major editors and pick which one you
+    wish to use. (You can change your mind later.)
+
+    \begin{itemize}
+        \item {\bf vi} - Run {\tt vimtutor} from the command prompt to
+        get the vim tutorial.
+        \item {\bf emacs} - Run {\tt emacs} from the command prompt to
+        run emacs.
+        \newline press ``Control+h'' followed by ``t'' to get to the
+        tutorial
+        \item {\bf nano} - Just mess around.  This is not an editor
+        for serious programmers, but if you like it then you do you!
+    \end{itemize}
+\end{frame}
+\end{document}
+
+
