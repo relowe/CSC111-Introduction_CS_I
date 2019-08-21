@@ -1,0 +1,343 @@
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[left=1in,top=1in,right=1in,bottom=1in,headheight=3ex,headsep=3ex]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+
+\newcommand{\blankline}{\quad\pagebreak[2]}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify Course title, instructor name, semester here %%%%%%%%
+\title{CSC111: Introduction to Computer Science I}
+\author{Dr. Robert Lowe}
+\date{Fall, 2019}
+
+
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[sc]{mathpazo}
+\linespread{1.05} % Palatino needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+\usepackage[mmddyyyy]{datetime}% http://ctan.org/pkg/datetime
+\usepackage{advdate}% http://ctan.org/pkg/advdate
+\newdateformat{syldate}{\twodigit{\THEMONTH}/\twodigit{\THEDAY}}
+\newsavebox{\MONDAY}\savebox{\MONDAY}{Mon}% Mon
+\newcommand{\week}[1]{%
+%  \cleardate{mydate}% Clear date
+% \newdate{mydate}{\the\day}{\the\month}{\the\year}% Store date
+  \paragraph*{\kern-2ex\quad #1, \syldate{\today} - \AdvanceDate[4]\syldate{\today}:}% Set heading  \quad #1
+%  \setbox1=\hbox{\shortdayofweekname{\getdateday{mydate}}{\getdatemonth{mydate}}{\getdateyear{mydate}}}%
+  \ifdim\wd1=\wd\MONDAY
+    \AdvanceDate[7]
+  \else
+    \AdvanceDate[7]
+  \fi%
+}
+\usepackage{setspace}
+\usepackage{multicol}
+%\usepackage{indentfirst}
+\usepackage{fancyhdr,lastpage}
+\usepackage{url}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{lastpage}
+\usepackage{amsmath}
+\usepackage{layout}
+
+\lhead{}
+\chead{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify header here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\rhead{\footnotesize CSC1110-02 Fall 2019}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Don't touch this %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lfoot{}
+\cfoot{\small \thepage/\pageref*{LastPage}}
+\rfoot{}
+
+\usepackage{array, xcolor}
+\usepackage{color,hyperref}
+\definecolor{clemsonorange}{HTML}{EA6A20}
+\hypersetup{colorlinks,breaklinks,linkcolor=clemsonorange,urlcolor=clemsonorange,anchorcolor=clemsonorange,citecolor=black}
+
+\begin{document}
+
+\maketitle
+
+\blankline
+
+\begin{tabular*}{.93\textwidth}{@{\extracolsep{\fill}}lr}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Modify information %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+E-mail: \texttt{robert.lowe@maryvillecollege.edu} & Office Phone: 865-981-8169 \\
+
+ Office Hours: MWF 1:00PM -- 2:00PM, TR 10:00AM -- 11:00AM  &  Class Hours: TR 2:00 -- 4:00\\
+ Office: SSC 214 & Class Room: SSC 204\\
+\hline
+\end{tabular*}
+
+\vspace{5 mm}
+
+% First Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Course Description}
+An introduction to computer science and structured programming with
+emphasis on program design and implementation, debugging,
+documentation, and programming projects. Laboratory work supplements
+and expands lecture topics and offers supervised practice using
+programming. 
+
+
+% Second Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Required Materials}
+\begin{itemize}
+    \item {\em Big C++. 3/e}. Cay Horstmann.
+    https://tinyurl.com/bigcpp
+    \item An internet connected computer of some sort.
+\end{itemize}
+
+% Third Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Prerequisites}
+MTH105 or suitable placement scores
+
+
+% Fourth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Core Curriculum Information}
+This course satisfies the Mathematical Reasoning domain requirement in
+the Maryville College core curriculum.  Upon completion of
+Introduction to Computer Science I, students will be able to:
+\begin{itemize}
+    \item Apply mathematical abstraction to model real-life problems.
+    \item Assess the validity and reliability of mathematical models.
+    \item Transfer previous mathematical knowledge to solve novel
+    problems.
+\end{itemize}
+
+\section*{Course Goals}
+This course is an introduction to the topic of Computer Science. The
+class explores how computers work, how to program computers, and how
+to design algorithms to accomplish computational goals. The focus of
+this course is computational thinking, and it is designed to provide
+the foundation for a deeper study of the very broad topic of Computer
+Science.
+
+Computer Science is a field which is interdisciplinary in nature.
+While our focus will be on programming, we will touch on many other
+topics including: 
+\begin{itemize}
+    \item Logical reasoning, especially Boolean logic.
+    \item Computational Theory
+    \item Electrical Engineering \& Physics
+    \item Philosophy
+    \item Geometry \& Algebra
+    \item Number Theory
+\end{itemize}
+
+Upon completion of this course, a successful student will:
+\begin{itemize}
+    \item Be proficient in algorithm design and the use of existing
+     algorithms.
+    \item Be proficient in the C++ programming language.
+    \item Have a basic understanding of the software development cycle.
+    \item Have a basic understanding of algorithmic complexity.
+    \item Have a firm foothold in higher mathematics and logical thinking.
+\end{itemize}
+
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Course Structure}
+\subsection*{Methods of Instruction}
+\begin{itemize}
+    \item Lecture Integrated with Hands-On Lab Activities
+    \item Independent Programming Assignments
+    \item Weekly Quizzes
+    \item Exams
+\end{itemize}
+
+\subsection*{Grading}
+This course is graded using a weighted average among four categories.
+The assignments within each category are equally weighted and are all
+graded out of 100 points.  Hence your final numeric grade is
+computed by finding the average of each category, and then multiplying
+them by the corresponding weight.  The weights for each category are
+as follows:
+
+\begin{tabular}{|l|r|}
+\hline
+{\bf Category} & {\bf Weight}\\
+\hline
+Exams & 30\%\\
+\hline
+Quizzes & 15\% \\
+\hline
+Attendance \& Hands-On Lab Activities & 20\% \\
+\hline
+Programming Assignments & 35\%\\
+\hline
+\end{tabular}
+
+\vspace{0.25in}
+
+Weekly grade reports will be returned to you via a private github
+repository.  If you notice any inaccuracy in your grading, please
+report it as soon as possible.  
+
+\vspace{0.25in}
+
+Letter grades will be assigned according to the following scale:
+
+\begin{tabular}{|lr|lr|lr|lr|lr|}
+    \hline
+    A+ & 96.7--100\% & B+ & 86.7--90\% & C+ & 76.7--80\% & D+ & 66.7--70\% & F & less than 60 \% \\
+    A  & 93.3--96.7\% & B & 83.3--86.7\% & C & 73.3--76.7\% & D & 63.3--66.7\% & & \\
+    A- & 90--93.3\% & A- & 80--83.3\% & C- & 70--73.3\% & D- & 60--63.3\% & & \\
+    \hline
+\end{tabular}
+
+\subsection*{Assessments}
+The standards of assessment in each grading category will be as
+follows.
+
+\subsubsection*{Exams {\em (30\% of the final grade)}}
+There will be two exams given in this class: a midterm exam and final
+exam.  The final exam is not comprehensive, it merely covers the
+material from the second half of the course. Both exams are mixed
+format exams including multiple choice, fill-in-the-blank, and short
+answer questions.
+
+\subsubsection*{Quizzes {\em (15\% of the final grade)}}
+Weekly quizzes will be given at
+the beginning of the first class period of the week.  Failure to be present
+during a quiz will result in an absence for the day and a zero for
+the quiz. No makeup quizzes will be given except as noted below in
+the excused absences section. Quizzes will cover the previous week's
+material and details found in the assigned reading.
+
+\subsubsection*{Attendance \& Hands-On Lab Activities {\em (20\% of the final grade)}}
+Attendance in this class is
+mandatory, and attendance is defined as full participation for the
+entire duration of a class period. Attendance will be taken at the
+end of every class period. Partial attendance for a class meeting
+will receive no credit. All assignments will be due at the beginning of their 
+respective class period and all
+quizzes will be given during the first few minutes of their respective
+class periods. Failure to submit an assignment and/or failure to take
+a quiz will also result in an absence for the day.
+
+In most class meetings, there will be a hands-on activity which we
+will complete together as a class.  Should any part of these assignments
+not be completed in class, it is your responsibility to complete them
+on your own.  In-class lab assignments are due on the Friday of each
+week, and are turned in electronically.  No late lab submissions will
+be accepted.
+
+
+\subsubsection*{Programming Assignments {\em (35\% of the final grade)}}
+There will be five programming assignments given throughout the year.
+You are expected to work independently on these assignments.  The
+source code you submit must come from one of three sources:
+\begin{itemize}
+    \item Your own original code.
+    \item Code from class examples and lab assignments.
+    \item Code from your textbook.
+\end{itemize}
+
+If you do use code from class examples and/or your textbook, you are
+required to cite the sections of your code that are not original.
+Using source code from any other source will be considered cheating,
+and will be dealt with according to the cheating and plagiarism policy
+stated later in this syllabus.
+(This includes paraphrasing code found on code repository sites such
+as github, gitlab, etc.  It also includes using code snippets from
+help sites such as stack overflow.  You may use these sites to study,
+but you must not ever submit code from these sources as your own!)
+
+
+
+% Course Schedule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Schedule}
+This is the tentative schedule for our course.  There may be some
+slight modifications to the following according to the needs of the
+semester. However, the exam dates are fixed, and will be followed.
+All exam dates are shown in bold font, and it is absolutely vital to
+your success in this course that you attend the exam days.  The final
+exam period is set by the registrar.  Attendance on the date of the
+final exam is absolutely mandatory; any student failing to appear on
+this date will receive a failing grade for the course.
+
+\input{fall2019-02-schedule}
+
+% Fifth Section %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section*{Course Policies}
+
+\subsection*{Late Policy}
+No late work will be accepted under any circumstances (except as mercy
+and decency may dictate in extremely rare events).
+
+\subsection*{Extra Credit}
+No extra credit will be given under any circumstances.
+
+\subsection*{Excused Absences}
+In some cases, absences may be excused. These include:
+\begin{itemize}
+    \item School Sanctioned Events (Sports, Concerts, etc.)
+    \item Severe Illness
+    \item Family Emergencies
+    \item Court Appearance / Jury Duty
+\end{itemize}
+In the case of a school event, notice must be given at least one week
+prior to the absence. The notice must include a signed note from the
+faculty or staff member in charge of the event. This note must be
+given in physical form, electronic notes will not be accepted.
+In the case of illness, a doctor's note is required. Note that
+except in extreme circumstances, doctor's appointments do not qualify as a valid reason to miss
+a class. Please be respectful of the other students, and schedule
+appointments during your free time.
+
+Family emergencies will require some form of proof. Where possible,
+you must give advance notice of missing a class. The exception to this
+would need to be fairly severe, and hopefully it will not come up.
+For court appearances and/or jury duty, you must provide a copy of
+your summons. You may redact any details you wish, save for the
+actual date and time of your appearance. Court appearances must be
+cleared at least one week in advance.
+
+\subsection*{Making Up Excused Absences}
+Should you be in a situation in which you receive an excused absence,
+this in no way will extend your due dates (excepting extreme
+emergencies). You must make up any quiz or test at a designated time 
+prior to your excused absence. Also, homework or projects must
+be submitted prior to the class period in which they are due.
+
+\subsection*{Communication and Extra Help}
+You are always welcome at office hours for help with any
+questions you may have about the course. For help at other times during the day, stop by or call my office to see if I'm available. You can also contact me by email, but often I can better help you face to face and may respond with a request that
+you come to see me. Note that I do not typically respond to email between 5 p.m. and 8 a.m. You may make appointments to see me at other times if your schedule does not permit you to attend my office hours.
+
+
+\subsection*{Plagiarism and Cheating}
+You are expected to do your own work. Never submit work of others,
+never give unauthorized assistance to others, do not use unauthorized
+aids during exams, and do not ask for help from other
+faculty members without the approval of your professor. Plagiarism and cheating are serious offenses that will not be
+tolerated. Explanations regarding these offenses and how they are handled can be found in the MC Student Handbook at\newline
+https://www.maryvillecollege.edu/academics/catalog/handbook/section-nine/.\newline
+You are expected to have read and understand these policies. Offenses on specific assignments, quizzes, or exams will result
+in a score of 0 on the relevant assignment, and a letter of censure will be placed in your college file. Repeat offenses will
+result in further disciplinary action, including the possibility of failing the course.
+
+\subsection*{Students with Disabilities}
+Any student who feels s/he may need learning or physical
+accommodation(s) based on the impact of a disability should contact Services for Students with Disabilities to discuss your
+specific needs. Please contact 981-8124 to coordinate reasonable accommodations for students with documented
+disabilities. The Disability Services office is located in the Learning Center in the basement of Thaw Hall. Undocumented
+disabilities will not be accommodated.
+
+\end{document}
+
+\end{document}
