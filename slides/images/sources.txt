@@ -1,0 +1,1 @@
+bjarne.jpg: https://en.wikipedia.org/wiki/Bjarne_Stroustrup
