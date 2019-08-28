@@ -1,0 +1,393 @@
+\documentclass{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{03 - Program Structure and Variables}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Program Structure}
+
+\begin{frame}{Startup}
+    \begin{enumerate}
+        \item Log in to your shell account
+        \item \texttt{cd cs1-fall2019-username}
+        \item \texttt{git pull}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{hello.cpp}}
+\begin{tabular}{rl}
+ \uncover<2->{\textcolor{green}{\small Preprocessor $\rightarrow$}} & \verb!#include <iostream>!\\
+                                     & \\
+ & \verb!using namespace std;!\\
+ & \\
+ \uncover<3->{\textcolor{green}{\small Main Header $\rightarrow$}}  & \verb!int main()!\\
+ & \verb!{! \uncover<4->{\textcolor{yellow}{\small $\leftarrow$ Begin Block}}\\
+ \uncover<5->{\textcolor{green}{\small Main Body $\rightarrow$}} & \verb!    cout << "hello, world" << endl;!\\
+ & \verb!}! \uncover<4->{\textcolor{yellow}{\small $\leftarrow$ End Block}}\\
+\end{tabular}
+\end{frame}
+
+\begin{frame}{Preprocessor Directives}
+    \begin{itemize}[<+->]
+        \item The preprocessor runs before the main compilation takes
+            place.
+        \item Preprocessor directives begin with \texttt{\#}.
+        \item The include directive copies the contents of a file to
+            its location.
+        \item \texttt{iostream} is a C++ library file which contains
+            definitions for input and output.
+        \item For any program that does input and output in C++, you
+            must therefore have the directive:  
+            \newline\texttt{\#include<iostream>}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{using}
+    \begin{itemize}[<+->]
+        \item In order to avoid name collisions, C++ has namespaces.
+        \item All of the C++ library is in the \texttt{std} namespace.
+        \item To access these elements, we would normally have to use
+            the \texttt{::} operator.
+        \item for example, the cout line in \texttt{hello.cpp} would read:
+            \newline\texttt{std::cout << "hello, world" << std::endl;}
+        \item Needless to say, this gets tedious!
+        \item The using line tells c++ to import all the objects from
+            a namespace so we don't have to use \texttt{::} to access
+            them.
+            \newline
+            \texttt{using namespace std;}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The \texttt{main} Function}
+    \begin{itemize}[<+->]
+        \item Every C++ program begins its execution in the main
+            function.
+        \item This is formally called \textbf{the program entry point}.
+        \item The main function returns an integer to the operating
+            system. A 0 means success, all other numbers are errors.
+        \item If you do not specify a return value, the compiler will
+            default to 0.
+        \item All of your code, for now, will go in between the curly
+            braces that mark the start and end of the main function.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Blocks and Statements}
+    \begin{itemize}[<+->]
+        \item A statement is a group of operations terminated by
+            a semicolon \texttt{;}.
+        \item For example, this line is the only statement in
+            \texttt{hello.cpp}:
+            \newline
+            \texttt{cout << "hello, world" << endl;}
+        \item C++ does not care about white space, so a statement can
+            span multiple lines.
+        \item Groups of statements are called blocks, and they are
+            wrapped in curly braces: \{ and \}.
+        \item The \texttt{main} function's body is a block of code.
+        \item Blocks can be nested inside each other (more on this
+            later).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Comments}
+    \begin{itemize}[<+->]
+        \item Comments are notes which explain the code.
+        \item The text of comments are ignored by the compiler.
+        \item C++ has two types of comments:
+            \newline\texttt{// Everything to the end is a comment}
+            \newline\texttt{/* Everything within is a comment */}
+        \item The \texttt{//} comment is new to C++, and is the
+            preferred method.
+        \item \texttt{/* */} are c-style comments and can be used to make multi-line
+            comments, but be careful!
+        \item Every program should have comments (lest they lose
+            points when being graded).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{boilerplate.cpp}}
+    \begin{enumerate}
+        \item \texttt{cd $\sim$/cs1-fall2019-{\em username}}
+        \item Create the file \texttt{boilerplate.cpp} and enter the following:
+    \end{enumerate}
+    \begin{verbatim}
+// File:
+// Purpose:
+// Author:
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+
+}
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{The Stream Insertion Operator}
+    \begin{itemize}[<+->]
+        \item \texttt{cout} is the character output stream.
+        \item Inserting data into \texttt{cout} will display it on the
+            screen.
+        \item The operator \texttt{<<} is the \textbf{insertion operator}.
+        \item \texttt{endl} is a constant which means ``end of line''.
+        \item So the line of C++:
+            \newline\texttt{cout << "hello, world" << endl;} 
+            \newline means ``Display the words `hello, world' and then
+              end the line''
+        \item \textbf{Something to Try}: Remove the \texttt{<< endl} portion of
+            this line in hello.cpp.  Recompile and run it.  What changed?
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Multiple Lines of Output}
+
+    Often, we want to have multiple lines of text. This can be done in
+    one statement!
+    \newline
+    \newline
+    \begin{adjustbox}{max width=0.95\textwidth}
+    \begin{BVerbatim}
+cout << "Tell me, where is fancy bred?" << endl
+     << "  Or in the heart, or in the head?" << endl
+     << "               --William Shakespeare" << endl
+     << "                (Merchant of Venice)" << endl;
+    \end{BVerbatim}
+    \end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{Challenge: Draw a Diamond!}
+\textbf{Challenge:} Write a program \texttt{diamond.cpp} in your
+\texttt{labs/week2} folder which uses a single statement to print the
+following figure (begin by copying your \texttt{boilerplate.cpp} file!:
+\begin{verbatim}
+     #
+    ###
+   #####
+  #######
+ #########
+###########
+ #########
+  #######
+   #####
+    ###
+     #
+\end{verbatim}
+\end{frame}
+
+\section{Variables}
+\begin{frame}{The Basic Idea of Variables}
+    \begin{itemize}[<+->]
+        \item Variables are programs store data.
+        \item Variables can be assigned values, be used in operations,
+            and can be changed.
+        \item In C++, variables are strongly typed.  That is, each
+            variable can only store one type of information!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Types and Declarations}
+    \begin{itemize}[<+->]
+        \item C++ has the following variable types:
+            \begin{description}
+                \item[bool] Stores a value that is either true or
+                    false
+                \item[char] Stores a single character (a letter,
+                    digit, or any other symbol)
+                \item[int] Stores an integer
+                \item[float] Stores a single precision floating point
+                    number (don't use these!)
+                \item[double] Stores a double precision floating point 
+                    number.
+            \end{description}
+        \item Variables must be declared before they are used:
+            \newline\texttt{int x;}
+            \newline\texttt{char letter;}
+            \newline\texttt{double num;}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Variable Names}
+
+Variables names:
+\begin{itemize}[<+->]
+    \item must begin with a letter or \_.
+    \item can contain letters, numbers, or \_.
+    \item are case sensitive.
+    \item must be unique.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The \texttt{cin} Stream}
+    \begin{itemize}[<+->]
+        \item \texttt{cin} is the character input stream object.
+        \item User input can be read into a variable using the 
+            \textbf{extraction operator} \texttt{>>}.
+        \item For example:
+            \newline\texttt{cin >> x;}
+            \newline would allow the user to enter an integer which is
+            then stored in \texttt{x}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: \texttt{multiple\_choice.cpp}}
+Compile and run this program (found in your examples folder)
+
+\begin{adjustbox}{max height=0.75\textheight}
+\begin{BVerbatim}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    char choice;  //The choice made by the user
+
+    //Get the user's choice
+    cout << "In my opinion, computer programming is _______." << endl
+         << "\tA) the best part of my day" << endl
+         << "\tB) what gives me a sense of purpose" << endl
+         << "\tC) how I scream into the void" << endl
+         << endl
+         << "Your Choice? ";
+    cin >> choice;
+
+    //report the user's choice
+    cout << "You chose " << choice << "." << endl;
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\section{Stock Portfolio Program}
+\begin{frame}{Overview}
+Over the course of this class, we will develop an application which
+manages a stock portfolio.  It will allow us to:
+\begin{itemize}[<+->]
+    \item Buy Stocks
+    \item Sell Stocks
+    \item Run Reports
+    \item Store Stock Data in a File
+\end{itemize}
+
+{\tiny This program was inspired by a project found in {\em Complete
+C Language Programming for the IBM PC} by Douglas A. Troy (1986)}
+\end{frame}
+
+\begin{frame}[fragile]{Main Menu}
+Write a program \texttt{stock.cpp} which displays the main menu of the
+stock portfolio system and reads a user's choice.  
+\begin{verbatim}
+$ ./stock
+        Stock Portfolio Management System
+                Please Make a Selection
+        1 -- Buy a Stock
+        2 -- Sell a Stock
+        3 -- Report Current Holdings
+        4 -- Report Gains and Losses
+        5 -- Remove a Current Holding
+        6 -- Done!  (quit) 
+
+        Choice? 6
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{Finishing Up}
+\begin{itemize}
+    \item Make sure you have the following files in
+        \texttt{cs1-fall2019-{\em username}/labs/week2}
+        \begin{itemize}
+            \item \texttt{hello.cpp}
+            \item \texttt{diamond.cpp}
+            \item \texttt{stock.cpp}
+        \end{itemize}
+    \item Make sure you have \texttt{boilerplate.cpp} in your
+        \texttt{cs1-fall2019-{\em username}} directory.
+    \item These programs must all be in working order to receive full
+        credit for the week!
+    \item \texttt{git add -A}
+    \item \texttt{git commit -a -m 'Finished Week2!'}
+\end{itemize}
+\end{frame}
+
+\end{document}
+
+
