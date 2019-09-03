@@ -1,0 +1,517 @@
+\documentclass[]{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{04 - Arithmetic}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Types}
+
+\begin{frame}{Variable Types}
+    \begin{itemize}
+        \item C++ has the following variable types:
+            \begin{description}
+                \item[\texttt{bool}] Stores a value that is either true or
+                    false
+                \item[\texttt{char}] Stores a single character (a letter,
+                    digit, or any other symbol)
+                \item[\texttt{int}] Stores an integer
+                \item[\texttt{float}] Stores a single precision floating point
+                    number (don't use these!)
+                \item[\texttt{double}] Stores a double precision floating point 
+                    number.
+            \end{description}
+        \item Variables must be declared before they are used:
+            \newline\texttt{int x;}
+            \newline\texttt{char letter;}
+            \newline\texttt{double num;}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Literals}
+    \begin{itemize}[<+->]
+        \item A literal is a value that is typed into a program.
+        \item Like variables, literals have types.
+        \item The compiler infers literal types from the format of the
+            literal.
+    \end{itemize}
+    
+    \uncover<+->{\textbf{Example Literals}}
+    \begin{description}[<+->]
+        \item[\texttt{bool}] \texttt{true} or \texttt{false}
+        \item[\texttt{char}] \texttt{'a'}, \texttt{'b'}, \texttt{'+'}
+        \item[\texttt{int}] \texttt{5}, \texttt{10}, \texttt{15}, \texttt{42}
+        \item[\texttt{float}] \texttt{1.5f}, \texttt{1.0f}
+        \item[\texttt{double}] \texttt{1.5}, \texttt{1.0}
+        \item[string] \texttt{"This is a string literal"}
+    \end{description}
+\end{frame}
+
+
+\begin{frame}{More About Variable Declarations}
+    \begin{itemize}[<+->]
+        \item You can declare multiple variables of the same type in
+            one statement.
+            \newline\texttt{int x, y;}
+            \newline\texttt{double a, b;}
+        \item Variables can be assigned initial values (initialized)
+            during declaration.
+            \newline\texttt{int count=0;}
+            \newline\texttt{char fi='R', mi='E', li='L';}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Constants}
+    \begin{itemize}[<+->]
+        \item A constant is like a named literal.
+        \item Unlike a variable, a constant cannot be changed. (So
+            it's not just a clever name!)
+        \item A constant is declared just like a variable, but with
+            the \texttt{const} keyword.
+        \item The value of a constant must be immediately assigned
+            when it is declared.
+    \end{itemize}
+
+    \uncover<+->{\textbf{Constant Example}
+    \newline\texttt{const double PI=3.14159;}}
+\end{frame}
+
+\begin{frame}{Code Style Notes}
+    \begin{itemize}[<+->]
+        \item Variable names should begin with a lower case letter.
+        \item When a variable name has more than one word, either 
+            \texttt{camelCase} it or \texttt{use\_underscores}.
+        \item Never mix and match camel casing and underscore variable
+        naming in the same program!
+        \item Constants should be named in all upper case letters.
+        \item Always use underscores with constant names with more
+            than one word.
+        \item Use descriptive variable names, but try to keep it short.
+        \item Only use multi-variable declarations where variables are
+            related.  For example, this is fine:
+            \newline\texttt{double x, y;        //coordinates}
+            \newline But this is probably not fine:
+            \newline\texttt{int count, length;  //count and length}
+    \end{itemize}
+\end{frame}
+
+\section{Arithmetic Operators}
+
+\begin{frame}{Integer Arithmetic}
+    \begin{description}[<+->]
+        \item[$+$] Addition
+        \item[$-$] Subtraction
+        \item[$*$] Multiplication
+        \item[$/$] Division
+        \item[$\%$] Modulus (remainder)
+    \end{description}
+
+    \begin{itemize}[<+->]
+        \item Note that when doing integer arithmetic, C++ truncates
+            any fractional parts.
+        \item Division works like ``grade school long division''
+        \item The operator $/$ simply returns the quotient.
+        \item The modulus operator $\%$ returns the remainder of the
+            division.
+        \item Integer arithmetic is performed on any expression
+            consisting of integer literals or variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Floating Point Arithmetic}
+    \begin{description}[<+->]
+        \item[$+$] Addition
+        \item[$-$] Subtraction
+        \item[$*$] Multipliation
+        \item[$/$] Division
+    \end{description}
+
+    \begin{itemize}[<+->]
+        \item Floating point arithmetic is what a pocket calculator
+            typically does.
+        \item This deals with real numbers, so they have fractional
+            parts.
+        \item There is no modulus for floating point arithmetic.
+        \item Floating point arithmetic is performed on any expression
+            which contains at least one \texttt{double} or
+            \texttt{float} literal/variable.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Assignment Operators}
+    \begin{description}[<+->]
+        \item[\texttt{=}] Assignment
+        \item[\texttt{+=}] Addition Assignment
+        \item[\texttt{-=}] Subtraction Assignment
+        \item[\texttt{*=}] Multiply Assignment
+        \item[\texttt{/=}] Divide Assignment
+        \item[\texttt{\%=}] Modulus Assignment
+    \end{description}
+
+    \begin{itemize}[<+->]
+        \item The left hand side of an assignment operator must be
+            a variable.
+        \item Assignment operators change the value of a variable.
+        \item Assignment operators return the value that was assigned.
+        \item Compound assignment operators are short-hand ways to
+        modify variables.  For example:
+        \newline\texttt{x += 1} is short for \texttt{x = x + 1}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Operator Precedence}
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Operator} & \textbf{Description} & \textbf{Associativity} \\
+        \hline
+        \texttt{a*b}, \texttt{a/b}, \texttt{a\%b} & Multiply, Divide, Modulus & Left-to-Right\\
+        \hline
+        \texttt{a+b}, \texttt{a-b} & Addition and Subtraction & Left-to-Right\\
+        \hline
+        \texttt{<<} , \texttt{>>} & Insertion nd Extraction & Left-to-Right \\
+        \hline
+        \texttt{=},  & Assignment and Assignment & Right-to-Left \\
+        \texttt{+=}, \texttt{-=} & & \\
+        \texttt{*=}, \texttt{/=} & & \\
+        \texttt{\%=} & & \\
+        \hline
+    \end{tabular}
+
+    \begin{itemize}[<+->]
+        \item Precedence specifies the order of operations.
+        \item Associativity is how we ``break ties''.
+        \item Parenthesis can also be used to control order of
+            operations (as in normal math).
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Example: \texttt{pmdas.cpp}}
+    \begin{adjustbox}{max height=0.8\textheight}
+    \begin{BVerbatim}
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "3+2*6=" << 3+2*6 << endl
+         << "(3+2)*6=" << (3+2)*6 << endl
+         << "5%2=" << 5%2 << endl
+         << "6/2*(1+2)=" << 6/2*(1+2) << endl
+         << "1/2*4=" << 1/2*4 << endl
+         << "1.0/2.0*4=" << 1.0/2.0*4 << endl;
+}
+    \end{BVerbatim}
+    \end{adjustbox}
+\end{frame}
+
+\begin{frame}{Statement Resolution}
+    \begin{itemize}[<+->]
+        \item C++ Resolves statements via expression substitution.
+        \item Once all operations are cleared, the statement is
+            completed.
+        \item For example:
+            \uncover<+->{\newline\texttt{6/2*(1+2)}}
+            \uncover<+->{\newline\texttt{6/2*3}}
+            \uncover<+->{\newline\texttt{3*3}}
+            \uncover<+->{\newline\texttt{9}}
+        \item Another example:
+            \uncover<+->{\newline\texttt{cout << 2+2 << endl}}
+            \uncover<+->{\newline\texttt{cout << 4 << endl}}
+            \uncover<+->{\newline\texttt{cout << endl}}
+            \uncover<+->{\newline\texttt{cout}}
+    \end{itemize}
+\end{frame}
+
+\section{Programming With Operators}
+
+\begin{frame}{The Overall Process}
+    \begin{enumerate}[<+->]
+        \item Write (in English) the steps to perform the program.
+        \item Write any formulae needed.
+        \item Identify variables and constants.
+        \item Decide on variable and constant types.
+        \item Start with the boilerplate program.
+        \item Declare variables and constants.
+        \item Write code to perform the needed operations.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Lab Activity: Calculate Circle Area (Steps 1-3)}
+    \textbf{Problem:} Write a program to calculate the area of
+    a circle.
+
+    \uncover<2->{\textbf{1.) Write steps in English}}
+    \begin{enumerate}[<+(2)->]
+        \item get the radius of the circle
+        \item calculate the area
+        \item print the results
+    \end{enumerate}
+
+    \uncover<+(2)->{\textbf{2.) Write any formulae needed}}
+    \uncover<+(2)->{
+    \[
+        a = \pi r^2
+    \]}
+
+    \uncover<+(2)->{\textbf{3.) Identify variables and constants.}}
+    \uncover<+(2)->{\newline \texttt{PI, r, a}}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Lab Activity: Calculate Circle Area (Steps 4-5)}
+    \uncover<+->{\textbf{4.) Decide on variable and constant types}}
+    \begin{enumerate}[<+->]
+        \item \texttt{ PI: double}
+        \item \texttt{ r: double}
+        \item \texttt{ a: double}
+    \end{enumerate}
+
+    \uncover<+->{\textbf{5.) Start with the boilerplate program}}
+    \begin{enumerate}[<+->]
+        \item Make your \texttt{labs/week3} directory.
+        \item Copy boilerplate.cpp to \texttt{labs/week3/circle.cpp}.
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]{Lab Activity: Calculate Circle Area (Step 6)}
+    \textbf{6.) Declare variable and Constants}
+    \newline Add the following to he beginning of main:
+    \newline
+        
+    \begin{adjustbox}{max width=0.95\textwidth}
+    \begin{BVerbatim}
+    const double PI=3.14159;  //the ratio c/d for all circles
+    double r;                 //radius of the circle
+    double a;                 //The area of the circle
+    \end{BVerbatim}
+    \end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Lab Activity: Calculate Circle Area (Step 7)}
+    \textbf{7.) Write code to perform the needed operations}
+    \newline Leave a blank line after the declarations and add the
+    following:
+    \newline\newline
+    \begin{BVerbatim}
+    //get the radius of the circle
+    cout << "What is the radius of the circle? ";
+    cin >> r;
+
+    //calculate the area
+    a = PI * r * r;
+
+    //print the results
+    cout << "Area: " << a << endl;
+    \end{BVerbatim}
+    \newline\newline
+    Compile and test your program.
+\end{frame}
+
+\begin{frame}{Some Notes on Style}
+    \begin{itemize}[<+->]
+        \item Code within a block should be indented.
+        \item Variable declarations should go at the top of a block.
+        \item A blank line should follow the variable declarations.
+        \item A blank line should separate related chunks of code.
+        \item Each chunk of code should have a comment introducing it.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Correctly Formatted \texttt{main} for \texttt{circle.cpp}}
+\begin{adjustbox}{max width=0.95\textwidth, max height=0.9\textheight}
+\begin{BVerbatim}
+int main()
+{
+    const double PI=3.14159;  //the ratio c/d for all circles
+    double r;                 //radius of the circle
+    double a;                 //The area of the circle
+
+    //get the radius of the circle
+    cout << "What is the radius of the circle? ";
+    cin >> r;
+
+    //calculate the area
+    a = PI * r * r;
+
+    //print the results
+    cout << "Area: " << a << endl;
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Challenge: Additional Circle Calculations}
+    \textbf{Challenge:} Add computation of diameter and circumference 
+    to your circle program.  
+    \newline\newline 
+    For example, given a radius of $3$, your program should produce the following output:
+    \newline\newline
+\begin{BVerbatim}
+Diameter: 6
+Circumference: 18.8495
+Area: 28.2743
+\end{BVerbatim}
+\end{frame}
+
+\begin{frame}{Lab Activity: Quadratic Equation}
+    \textbf{Problem:} Compute the quadratic equation for any set of
+    coefficients.
+    \uncover<2->{
+    \[
+        x=\dfrac{-b \pm \sqrt{b^2-4ac}}{2a}
+    \]}
+
+    \uncover<3->{Let's carry out the design process.}
+\end{frame}
+
+\begin{frame}{The \texttt{cmath} Library}
+    \begin{itemize}[<+->]
+        \item \texttt{cmath} includes functions like you would find on
+            a scientific calculator.
+        \item One of these is \texttt{sqrt} which computes the square
+            root of a number.
+        \item For the rest, please see
+        \newline\url{https://en.cppreference.com/w/cpp/header/cmath}.
+        \item To use these functions, you must add the following line
+            underneath the \texttt{\#include <iostream>}:
+        \newline\texttt{\#include <cmath>}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Quadratic Equation Variable Declarations}
+    Add the following to the appropriate part of your main function.
+    \newline\newline
+\begin{adjustbox}{max width=0.95\textwidth, max height=0.9\textheight}
+\begin{BVerbatim}
+    double a, b, c;     //coefficients
+    double x1, x2;      //roots
+    double rhs;         //right hand side of the numerator
+    double divisor;     //the divisor
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Quadratic Equation: Coefficients}
+    Add the following at the appropriate space
+    \newline\newline
+\begin{BVerbatim}
+    //get the coefficients
+    cout << "a=";
+    cin >> a;
+    cout << "b=";
+    cin >> b;
+    cout << "c=";
+    cin >> c;
+\end{BVerbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Quadratic Equation: Compute and Display}
+\begin{adjustbox}{max width=0.95\textwidth, max height=0.9\textheight}
+\begin{BVerbatim}
+    //compute the right hand side of the numerator
+    rhs = sqrt(b*b - 4.0 * a * c);
+
+    //compute the divisor
+    divisor = 2.0 * a;
+
+    //compute the roots
+    x1 = (-b - rhs) / divisor;
+    x2 = (-b + rhs) / divisor;
+
+    //print the results
+    cout << "The roots are: " << x1 << ", " << x2 << endl;
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}{Finishing Up}
+    \begin{itemize}[<+->]
+        \item You should have the following files in \texttt{labs/week3}:
+            \begin{itemize}
+                \item \texttt{circle.cpp}
+                \item \texttt{quadratic.cpp}
+            \end{itemize}
+        \item Make sure both programs work.
+        \item Add, Commit, and Push in git!
+    \end{itemize}
+\end{frame}
+
+\end{document}
+
+
