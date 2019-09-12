@@ -2,3 +2,5 @@ bjarne.jpg: https://en.wikipedia.org/wiki/Bjarne_Stroustrup
 pythagoras-proof: https://commons.wikimedia.org/wiki/File:Pythagoras-proof-anim.svg
 well: http://www.wikigallery.org/wiki/painting_285033/Peeter-Sion/Joseph-lowered-into-the-well-by-his-brothers
 pythagoras: https://www.youtube.com/watch?v=Vn4rwks1eMk
+fahrenheit: https://en.wikipedia.org/wiki/Daniel_Gabriel_Fahrenheit
+celsius: https://en.wikipedia.org/wiki/Anders_Celsius
