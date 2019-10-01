@@ -1,0 +1,383 @@
+\documentclass[]{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{adjustbox}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{11 - Functions and Topdown Design}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Finishing the Romans}
+\begin{frame}{Roman Numeral Conversion Functions}
+    After decomposing the problem, one possible set of functions
+    for convert Indian numbers to Roman Numerals is:
+    \begin{itemize}[<+(1)->]
+        \item \texttt{print\_roman\_numeral(value)}
+        \item \texttt{indian\_to\_roman(num)}
+        \item \texttt{repeat\_roman(n, value)}
+        \item \texttt{next\_roman(value)}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\texttt{repeat\_roman(n, value)}}
+    The design for \texttt{repeat\_roman} goes something like this:
+    \begin{enumerate}[<+(2)->]
+        \item Call \texttt{print\_roman\_numeral(value)} \texttt{n}
+            times.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{\texttt{next\_roman(value)}}
+    \begin{itemize}[<+(1)->]
+        \item Of course, the hard part is going through the possible
+            Roman values.
+        \item This function gives us the next number in the sequence:
+            1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
+        \item We should make sure that if we give it a 1, we return 1.
+            Why?
+        \item We could implement this using a big chain of if .. else if 
+            statements.
+        \item Can we come up with a more clever way to pull off the
+            function?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Roman Recap}
+    \begin{itemize}[<+(1)->]
+        \item Roman numeral conversions would have been a nightmare
+            if we tried to do this all in one function!
+        \item Thanks to the ability to subdivide the problem into
+            different functions, it was only a slightly uncomfortable
+            dream.
+        \item Modular decomposition is the crucial skill in any large
+            scale program.
+        \item By our simple ape-brained standards, almost all programs
+            are large scale problems.
+    \end{itemize}
+\end{frame}
+
+
+\section{Scope}
+\begin{frame}{Scope}
+    \begin{block}{Scope}<2->
+        A \textbf{scope} is a region of program text.  Identifiers are
+        declared within a scope and are only available within their
+        scope.
+    \end{block}
+    \begin{itemize}[<+(2)->]
+        \item Identifiers within a scope must be unique.
+        \item The C++ scopes are:
+        \begin{itemize}
+            \item \textbf{global scope} The entire program text.
+            \item \textbf{namespace scope} A named scope (more about
+                this much later).
+            \item \textbf{class scope} The region within a class.
+                (more about this later this semester).
+            \item \textbf{local scope} The region within a function
+                body or the function's argument list.
+            \item \textbf{block/statement scope} The region within
+                a statement or between two curly braces \{ \}.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Scope Nesting: \texttt{11-Functions/scope.cpp}}
+\begin{adjustbox}{max totalheight=0.9\textheight, max width=0.95\textwidth}
+\begin{BVerbatim}
+#include<iostream>
+
+using namespace std;
+
+//Global Scope
+
+void count(int start, int stop, int increment)
+{
+    for(int i=start; i<=stop; i+=increment) {
+        cout << i << endl;
+    }
+}
+
+int main()
+{
+    int start, stop, increment;
+
+    //read in start stop and increment
+    cout << "Enter start stop and increment: ";
+    cin >> start >> stop >> increment;
+
+    //count
+    count(start, stop, increment);
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{A Scope Puzzle: \texttt{11-Functions/puzzle.cpp}}
+\begin{adjustbox}{max totalheight=0.9\textheight, max width=0.95\textwidth}
+\begin{BVerbatim}
+// What will the following program display?
+#include<iostream>
+
+using namespace std;
+
+void scope_test(int x)
+{
+    x += 10;
+}
+
+
+int main()
+{
+    int x = 32;
+
+    scope_test(x);
+
+    cout << x << endl;
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}{Argument Passing in C++}
+    \begin{itemize}[<+(2)->]
+        \item In C++, the default behavior for arguments is
+            \textbf{pass by value}.
+        \begin{itemize}
+            \item The value of the argument is copied into the local
+                scoped variable named in the parameter list.
+            \item In \texttt{puzzle.cpp}, even though they have the
+                same name, \texttt{x} in \texttt{main} is a different
+                variable than \texttt{x} in \texttt{scope\_test}.
+            \item The two \texttt{x}'s are in a different scope.
+        \end{itemize}
+        \item We can also \textbf{pass by reference}.
+        \begin{itemize}
+            \item A reference parameter is declared by placing an
+                \texttt{\&} between the type and parameter name.
+            \item For example: \texttt{scope\_test(int \&x)}
+            \item This binds the parameter to the argument variable, 
+                so that both names refer to the same actual variable.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Another Scope Puzzle: \texttt{11-Functions/ref.cpp}}
+\begin{adjustbox}{max totalheight=0.9\textheight, max width=0.95\textwidth}
+\begin{BVerbatim}
+// We can also pass by reference!  What will this display?
+#include<iostream>
+
+using namespace std;
+
+void scope_test(int &x)
+{
+    x += 10;
+}
+
+
+int main()
+{
+    int x = 32;
+
+    scope_test(x);
+
+    cout << x << endl;
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+
+\section{Code Reuse and Multi-File Programming}
+\begin{frame}{Why Reuse Code?}
+    \begin{itemize}[<+(1)->]
+        \item Software is complex and expensive to produce.
+        \item If we had to constantly rewrite everything, we would 
+            never be able to get any work done.
+        \item We need some way to separate generic code from a 
+            specific application.
+        \item This allows us to reuse code in future projects!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Working With Multiple Files}
+    \begin{itemize}[<+->]
+        \item One easy way to reuse function is to put them into 
+            separate files.
+        \item Often, we put a main function into a file by itself,
+            and then the functions that it calls go into one or
+            more additional files.
+        \item In this way, we can copy files between programs, or
+            even write several programs that use the same functions in
+            the same directory.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Separating \texttt{roman.cpp}}
+    \begin{enumerate}[<+->]
+        \item Create the \texttt{labs/week7} directory.
+        \item Copy \texttt{labs/week6/roman.cpp} to
+            \texttt{labs/week7}
+        \item Now, create a new file \texttt{roman-converter.cpp} and 
+            move your main function over to this file. (Be sure to
+            delete your old main function and to include all the
+            iostream stuff that it needs.)
+        \item Try to compile your program:
+            \newline{\footnotesize\verb!g++ -o roman-converter roman.cpp roman-converter.cpp!}
+        \item Did it work?  Why or why not?
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Gluing it Together With Header Files}
+    \begin{itemize}[<+->]
+        \item A function must be declared before it can be used.
+        \item Because the definitions are in a separate file, they are
+            not declared in the file that contains our main function.
+        \item We can solve this with prototypes.
+        \item Repeating prototypes in every file is painful.
+        \item Enter the header file!  
+        \item A header file usually has a \texttt{.h} extension and
+            contains:
+            \begin{itemize}
+                \item Function Prototypes
+                \item Constants
+                \item Type Definitions
+            \end{itemize}
+        \item Let's create \texttt{roman.h}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{roman.h}}
+The contents of \texttt{roman.h}:
+\begin{BVerbatim}
+void indian_to_roman(int num);
+\end{BVerbatim}
+\begin{itemize}[<+(1)->]
+    \item We only include prototypes for functions we want to call
+        from outside of this file.
+    \item This is the public interface for the roman module.
+    \item The other functions are sometimes referred to as
+        \textbf{helper functions}.
+    \item Technically, what we have does not conform to best
+        practices, but we will omit some other details for now.
+    \item Aren't I a merciful fellow?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Including Header Files}
+    \begin{itemize}[<+->]
+        \item Header files are included using the \verb!#include!
+            preprocessor directive.
+        \item When you use angle brackets: \verb!< >!, the
+            preprocessor searches the system's include directories for the
+            file.
+        \item When you use quotes: \verb!" "!, the preprocessor
+            searches the local directory for the file.
+        \item So when you do \verb!#include<iostream>!, you are
+            searching for the system file called \texttt{iostream}.
+        \item To include your header file, change the top of
+        \texttt{roman-converter.cpp} to read as follows:
+        \begin{BVerbatim}
+#include <iostream>
+#include "roman.h"
+        \end{BVerbatim}
+        \item Now we can compile this multi-part program:
+            \newline{\footnotesize\verb!g++ -o roman-converter roman.cpp roman-converter.cpp!}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Some Best Practices Regarding Header Files}
+    \begin{itemize}[<+->]
+        \item Always name your headers with the \texttt{.h} extension.
+        \item This makes them distinguishable from the C++ system
+            library.
+        \item When including files, start with the system-wide
+            includes, and then list your own:
+            \begin{BVerbatim}
+    #include <iostream>
+    #include <cmath>
+    #include <time.h>
+    #include "fun_functions.h"
+    #include "easy_functions.h"
+    #include "awful_functions.h"
+            \end{BVerbatim}
+        \item Keep all of your include directives together at the top
+            of your files.
+        \item Header files may include other files, but do not put
+            a \texttt{using namespace} in a header file.  
+    \end{itemize}
+\end{frame}
+
+\end{document}
