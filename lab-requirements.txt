@@ -1,0 +1,26 @@
+labs/week2
+    hello.cpp
+    diamond.cpp
+    stock.cpp
+    ../../boilerplate.cpp
+labs/week3
+    circle.cpp
+    quadratic.cpp
+labs/week4
+    stock.cpp w/ messages
+    count.cpp using increment
+    count2.cpp
+    fahrenheit.cpp
+labs/week5
+    multiply.cpp
+    guess.cpp
+    stock.cpp (w/ enum and menu loops)
+labs/week6
+    count2.cpp (for loop version)
+    fahrenheit.cpp (for loop version)
+    double-count.cpp (fully corrected)
+    roman.cpp
+labs/week7
+    roman.cpp
+    roman-converter.cpp
+    roman.h
