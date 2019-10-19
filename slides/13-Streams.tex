@@ -1,0 +1,103 @@
+\documentclass[]{article}
+\usepackage{fullpage}
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\title{13 - Streams}
+\date{}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{14pt}
+
+\begin{document}
+\maketitle
+
+\section{Streams as Objects}
+\begin{itemize}
+    \item A stream is an object which allows you to send and receive bytes.
+    \item \texttt{cin} is an object of type \texttt{istream}, which is sort for input stream.  (See \url{https://en.cppreference.com/w/cpp/io/basic_istream}) 
+    \item \texttt{istream} maintains a buffer of bytes read from whatever source it is attached to.
+    \item The state of an \texttt{istream} includes its position within this buffer. 
+    \item Several status methods are avaialable:
+    \begin{itemize}
+        \item \texttt{good()} - True if no error has occured
+        \item \texttt{eof()} - True if we have reached the end of file
+        \item \texttt{fail()} - True if an error has occured
+        \item \texttt{bad()} - True if a non-recoverable error has occurred
+    \end{itemize}
+
+    \item On a Unix-like system, we can trigger and end of file event in 
+        the standard input by pressing \textit{Ctrl + d} on the keyboard.
+\end{itemize}
+
+\pagebreak
+\section{Lab Activity: \texttt{average.cpp}}
+In your \texttt{labs/week8} directory, create a file called 
+\texttt{average.cpp} and enter the following code (without line numbers, of
+course!)
+
+\begin{BVerbatim}
+     1	//Compute an average of all numbers entered
+     2	#include <iostream>
+     3	
+     4	using namespace std;
+     5	
+     6	
+     7	int main()
+     8	{
+     9	    double sum = 0.0;  //the sum of all the numbers
+    10	    int count=0;       //the number of numbers
+    11	
+    12	    do {
+    13	        //get a number
+    14	        int n;
+    15	        cout << "Enter a number (Ctrl+d to exit): ";
+    16	        cin >> n;
+    17	    
+    18	        if(not cin.eof()) {
+    19	            //add to our sum, if there was a number
+    20	            sum += n;
+    21	            count++;
+    22	        }
+    23	    } while(not cin.eof());
+    24	
+    25	    //print the average
+    26	    cout << endl <<endl <<  "The average is: " << sum / count << endl;
+    27	}
+\end{BVerbatim}
+
+Now, try out a few averages.  It works, so long as you don't misbehave!  But now,
+try entering the following:
+
+\begin{BVerbatim}
+Enter a number (Ctrl+d to exit): 1
+Enter a number (Ctrl+d to exit): 2
+Enter a number (Ctrl+d to exit): three
+\end{BVerbatim}
+
+The thing goes nuts!  Why?  Well the anwer is in what happens when you
+do formatted input.  When you type 1, the stream actually contains:
+
+\begin{tabular}{|c|c|}
+    \hline
+    \texttt{1} & \texttt{\textbackslash n}  \\
+    \hline
+\end{tabular}
+
+When the line that reads \texttt{cin >> n} this performs an extraction
+operation, which does the following:
+\begin{enumerate}
+    \item Skip all white space.
+    \item Consume characters until the next character does not match
+      the type we are extracting.
+\end{enumerate}
+Because we are extracting an \texttt{int}, the extraction operator will stop
+when it encounters the first character which is not a digit. So in this 
+example, once extraction is done, the stream will contain:
+
+\begin{tabular}{|c|}
+    \hline
+    \texttt{\textbackslash n}  \\
+    \hline
+\end{tabular}
+
+\end{document}
