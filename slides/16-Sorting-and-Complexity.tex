@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass[]{beamer}
 \mode<presentation>
 {
   \usetheme{Warsaw}
@@ -75,12 +75,32 @@
 
 \section{Intuitive Sorting}
 \begin{frame}{Activity: Sort your cards}
+\begin{enumerate}
+    \item Layout the cards in front of you.
+    \item Using some technique which looks at one or two cards at
+        once, put the cards into sorted order.
+    \item Repeat this a few times, until you are conscious of how you
+        do it.
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Activity: How did you sort?}
+\begin{enumerate}
+    \item Think about how you sorted your cards.
+    \item Try to write down the general idea about how it was done.
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Activity: Produce Pseudocode of your technique}
+\begin{enumerate}
+    \item Create a directory \texttt{labs/week10}
+    \item In this directory, using your favorite editor, create a file
+        named \texttt{mysort.txt}
+    \item Write pseudocode to describe the sorting method that you
+        used.
+    \item Compare sorting methods with your neighbors.  Who's sort
+        looks better?
+\end{enumerate}
 \end{frame}
 
 \section{Sorting Algorithms}
@@ -100,41 +120,185 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Selection Sort}
+\begin{frame}[fragile]{Selection Sort}
+\begin{verbatim}
+selction_sort(ar)
+    for i = 0 to ar
+        min=i
+        for j = i+1 to ar.size()-1
+            if ar[j] < ar[min] 
+                min = j
+            end if
+        end for
+        swap ar[i] and ar[j]
+    end for
+\end{verbatim}
+\begin{itemize}[<+->]
+    \item Carry out selection sort with your cards.
+    \item Intuitively, what is selection sort doing?
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Bubble Sort}
+\begin{frame}[fragile]{Bubble Sort}
+\begin{verbatim}
+bubble_sort(ar)
+    do
+        swapped = false
+        for i=0 to ar.size()-2
+            if ar[i+1] < ar[i]
+                swap ar[i+1] and ar[i]
+                swapped = true
+            end if
+        end for
+    while swapped
+\end{verbatim}
+\begin{itemize}[<+->]
+    \item Carry out selection sort with your cards.
+    \item Intuitively, what is bubble sort doing?
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Merge Sort}
+\begin{frame}[fragile]{Merge Sort}
+\begin{verbatim}
+merge_sort(ar)
+    if ar.size() <= 1 
+        retun
+    end if
+
+    mid = ar.size() / 2
+    merge_sort(ar[0..mid])
+    merge_sort(ar[mid+1 .. ar.size()-1) 
+
+merge(left, right)
+    While left and right are not empty
+        take the smallest of the first element in
+        left and right
+    end while
+\end{verbatim}
+
+\begin{itemize}[<+->]
+    \item Carry out merge sort with your cards.
+    \item Intuitively, what is merge sort doing?
+\end{itemize}
 \end{frame}
 
-\begin{frame}{Activity: Which of these were you closest to?}
+\begin{frame}{Activity: Compare Sorting Algorithms}
+    \begin{enumerate}[<+->]
+        \item Which sorting method seemed closer to what you did?
+        \item Which sorting method seemed more efficient?
+    \end{enumerate}
 \end{frame}
 
 \section{Time Complexity}
 \begin{frame}{Which algorithm is better?}
+\begin{itemize}[<+->]
+    \item We can always buy more memory.
+    \item We can never buy more time.
+    \item We typically evaluate an algorithm based on how long it will
+        take to execute.
+    \item The standard is to rate the algorithm by the number of steps
+        necessary to solve a problem of $n$ size.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Asymptotic Notation}
+\begin{itemize}[<+->]
+    \item Suppose we want to determine the number of steps as
+        a function $f(n)$
+    \item Usually, we can't find the exact $f(n)$, and even if we
+        could,this would not be all that meaningful.
+    \item We instead compute an asymptotic bound.
+    \item An algorithm is $O(g(n))$ if $f(n) \leq c g(n)$ for some
+        constant $c$ for all $n$ above some threshold.
+    \item Intuitively, $O(g(n))$ gives us the ``worst case'' run time.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{How different can they be?}
+    \begin{itemize}[<+->]
+        \item Some common runtime include:
+        \begin{itemize}
+            \item Logarithmic  - $O(\mathrm{lg}(n))$
+            \item Linear - $O(n)$
+            \item n log n - $O(n \mathrm{lg}(n))$
+            \item Quadratic - $O(n^2)$
+            \item Exponential - $O(2^n)$
+        \end{itemize}
+        \item Using a spreadsheet, let's see how these functions relate
+            to each other.
+    \end{itemize}
 \end{frame}
 
-\begin{frame}{Selection Sort Complexity}
+\begin{frame}[fragile]{Selection Sort Complexity}
+Find the time complexity of the following:
+\begin{verbatim}
+selction_sort(ar)
+    for i = 0 to ar
+        min=i
+        for j = i+1 to ar.size()-1
+            if ar[j] < ar[min] 
+                min = j
+            end if
+        end for
+        swap ar[i] and ar[j]
+    end for
+\end{verbatim}
 \end{frame}
 
-\begin{frame}{Bubble Sort Complexity}
+\begin{frame}[fragile]{Bubble Sort Complexity}
+Find the time complexity of the following:
+\begin{verbatim}
+bubble_sort(ar)
+    do
+        swapped = false
+        for i=0 to ar.size()-2
+            if ar[i+1] < ar[i]
+                swap ar[i+1] and ar[i]
+                swapped = true
+            end if
+        end for
+    while swapped
+\end{verbatim}
 \end{frame}
 
-\begin{frame}{Merge Sort Complexity}
-\end{fram}
+\begin{frame}[fragile]{Merge Sort Complexity}
+Find the time complexity of the following:
+\begin{verbatim}
+merge_sort(ar)
+    if ar.size() <= 1 
+        retun
+    end if
+
+    mid = ar.size() / 2
+    merge_sort(ar[0..mid])
+    merge_sort(ar[mid+1 .. ar.size()-1) 
+
+merge(left, right)
+    While left and right are not empty
+        take the smallest of the first element in
+        left and right
+    end while
+\end{verbatim}
+\end{frame}
 
 \begin{frame}{Activity: What is the complexity of your search algorithm?}
+\begin{enumerate}
+    \item Compute the time complexity of your own sorting algorithm.
+    \item Include your runtime and justification of your complexity in
+        your text file.
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Activity: Code a Sorting Algorithm}
+\begin{enumerate}
+    \item Code your favorite sorting algorithm.
+    \item Your program should do the following:
+    \begin{enumerate}
+        \item Ask for 10 numbers, which it adds to a vector.
+        \item Run your sorting algorithm.
+        \item Print the sorted vector.
+    \end{enumerate}
+\end{enumerate}
 \end{frame}
 
 \end{document}
