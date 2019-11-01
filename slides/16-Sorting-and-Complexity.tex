@@ -130,7 +130,7 @@ selction_sort(ar)
                 min = j
             end if
         end for
-        swap ar[i] and ar[j]
+        swap ar[i] and ar[min]
     end for
 \end{verbatim}
 \begin{itemize}[<+->]
@@ -168,6 +168,7 @@ merge_sort(ar)
     mid = ar.size() / 2
     merge_sort(ar[0..mid])
     merge_sort(ar[mid+1 .. ar.size()-1) 
+    merge(ar[0..mid], ar[mid+1 .. ar.size()-1])
 
 merge(left, right)
     While left and right are not empty
@@ -240,7 +241,7 @@ selction_sort(ar)
                 min = j
             end if
         end for
-        swap ar[i] and ar[j]
+        swap ar[i] and ar[min]
     end for
 \end{verbatim}
 \end{frame}
@@ -272,6 +273,7 @@ merge_sort(ar)
     mid = ar.size() / 2
     merge_sort(ar[0..mid])
     merge_sort(ar[mid+1 .. ar.size()-1) 
+    merge(ar[0..mid], ar[mid+1 .. ar.size()-1])
 
 merge(left, right)
     While left and right are not empty
