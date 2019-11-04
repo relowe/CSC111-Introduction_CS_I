@@ -1,0 +1,429 @@
+\documentclass[]{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{adjustbox}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{Structures}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Aggregate Data Types}
+\begin{frame}{The Problem}
+    \begin{itemize}[<+->]
+        \item We often need to store multiple related pieces of
+            information.
+        \item For instance, what does a stock holding look like?
+        \begin{itemize}
+            \item Company Name
+            \item Stock Symbol
+            \item Purchase Price
+            \item Quantity
+        \end{itemize}
+        \item How could we store this for each stock?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{One Solution: Parallel Vectors}
+    \begin{itemize}[<+->]
+        \item We could make a vector for each field:
+        \begin{verbatim}
+vector<string> company_name;
+vector<string> stock_symbol;
+vector<double> price;
+vector<int> quantity;
+        \end{verbatim}
+        \item This way, stock \texttt{i} has \texttt{company\_name[i]}, 
+            \texttt{stock\_symbol[i]}, \texttt{price[i]}, and
+            \texttt{quantity[i]}
+        \item This is, of course, error prone and awkward!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Better Approach}
+    \begin{itemize}
+        \item Wouldn't it be nicer if we could do something like this?
+        \begin{verbatim}
+Stock s;
+        \end{verbatim}
+        \item Or even better, make a vector of stocks?
+        \begin{verbatim}
+vector<Stock> portfolio;
+        \end{verbatim}
+        \item It turns out, we can!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{C++ \texttt{struct}}
+
+\begin{block}{Stock Structure}
+{\tt
+struct Stock\{
+\newline\verb!    !string company\_name;
+\newline\verb!    !string stock\_symbol;
+\newline\verb!    !double price;
+\newline\verb!    !int quantity;
+\newline\};
+}
+\end{block}
+\begin{itemize}[<+(2)->]
+    \item A \texttt{struct} is a programmer defined \textbf{aggregate type}.
+    \item A \texttt{struct} creates a custom type, which we can then use as any
+        other variable type.
+    \item The items within a \texttt{struct} are called fields.
+\end{itemize}
+
+\end{frame}
+
+\section{Programming With Structures}
+
+\begin{frame}[fragile]{Declaring and Using Struct Variables}
+\begin{itemize}[<+->]
+    \item Structs operate like any other variable type, and fields are
+        accessed using the '.' operator.
+        \begin{verbatim}
+Stock s;
+s.company_name = "Microsoft";
+s.stock_symbol = "MSFT";
+        \end{verbatim}
+    \item The same is true of structs in vectors:
+    \begin{verbatim}
+vector<Stock> list(10);
+list[0].company_name = "Microsoft";
+list[1].stock_symbol = "MSFT";
+    \end{verbatim}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Defining Structures}
+    \begin{itemize}[<+->]
+        \item Typically, a \texttt{struct} will be defined in the
+            global scope.
+        \item \texttt{struct} definitions should go before function
+            prototypes (either in .h or .cpp files).
+        \item A typical layout of a .h file is:
+        \begin{enumerate}
+            \item \texttt{struct} definitions.
+            \item Function Prototypes
+        \end{enumerate}
+        \item A typical layout for a .cpp file is:
+        \begin{enumerate}
+            \item Includes
+            \item \texttt{struct} definitions
+            \item Function Prototypes
+            \item Main Function
+            \item Function Definitions
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\textbf{Lab Activity}: buysell.cpp}
+    \begin{enumerate}[<+->]
+        \item Create the directory \texttt{labs/week11}.
+        \item Copy \texttt{buysell.cpp} from \texttt{labs/week10} to
+            \texttt{labs/week11}.
+        \item We will be modifying this file to use structures.
+        \item Make the following changes to buysell.cpp
+    \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Includes and Structure}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//Buy and sell stocks by symbol
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+//type definitions
+struct Stock{
+    string company_name;
+    string stock_symbol;
+    double price;
+    int quantity;
+};
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Function Prototypes}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//function prototypes
+void buy(vector<Stock> &list);
+void sell(vector<Stock> &list);
+void display(vector<Stock> &list);
+void load(vector<Stock> &list);
+void save(vector<Stock> &list);
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Main Function}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+int main()
+{
+    int choice;
+    enum menu_choices { BUY=1, SELL, DISPLAY, QUIT };
+    vector<Stock> stocks;  
+
+    //load the stocks
+    load(stocks);
+    
+    //display the menu
+    do {
+        //get the user's choice
+        cout << "       MENU " << endl
+             << "   1.) Buy a Stock" << endl
+             << "   2.) Sell a Stock" << endl
+             << "   3.) Display Stocks" << endl
+             << "   4.) Quit" << endl
+             << endl
+             << "   Choice? ";
+        cin >> choice;
+
+        //do the menu choice
+        if(choice == BUY) {
+            buy(stocks);
+        } else if(choice == SELL) {
+            sell(stocks);
+        } else if(choice == DISPLAY) {
+            display(stocks);
+        } else if(choice != QUIT) {
+            cout << "Invalid selection. Please try again." << endl;
+        }
+    } while(choice != QUIT);
+
+    //save the stocks
+    save(stocks);
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Buy}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//buy a stock
+void buy(vector<Stock> &list)
+{
+    // Ask the user for a stock
+    Stock stock;
+
+    //get the stock Fields
+    cout << "Company Name> ";
+    cin >> stock.company_name;
+    cout << "Symbol> ";
+    cin >> stock.stock_symbol;
+    cout << "Price> ";
+    cin >>  stock.price;
+    cout << "Quantity> ";
+    cin >> stock.quantity;
+
+    // add the stock to the list
+    list.push_back(stock);
+
+    //sort the stocks
+    //sort(list.begin(), list.end());
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Sell}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//sell a stock
+void sell(vector<Stock> &list)
+{
+/*
+    //ask the user for the stock
+    string stock;
+    cout << "Which stock do you want to sell? ";
+    cin >> stock;
+    
+    //find the stock
+    auto itr = find(list.begin(), list.end(), stock);
+
+    //if the stock is in the list, remove
+    //otherwise print an error message
+    if(itr != list.end()) {
+        list.erase(itr);
+    } else {
+        cout << "Could not find stock." << endl;
+    }
+*/
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Display}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//display our stocks
+void display(vector<Stock> &list)
+{
+    //print a header
+    cout << left << setw(6) << "Symbol" 
+         << left << setw(15) << "Company Name" 
+         << right << setw(10) << "Quantity"
+         << right << setw(10) << "Price" << endl
+         << setfill('=') << setw(41) << '=' << endl
+         << setfill(' ');
+    //loop over all the stocks
+    for(auto itr = list.begin(); itr != list.end(); itr++) { 
+        cout << left << setw(6) << itr->stock_symbol
+             << left << setw(15) << itr->company_name
+             << right << setw(10) << itr->quantity 
+             << right << fixed << setprecision(2) << setw(10)
+             << itr->price 
+             << endl;
+    }
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{buysell.cpp Load}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//load the stocks from disk
+void load(vector<Stock> &list)
+{
+/*
+    //open the file
+    ifstream file;
+    file.open("STOCK.LST");
+    if(not file) {
+        //return if the file does not exist
+        return;
+    }
+
+    //read to the end of the file
+    while(not file.eof()) {
+        string stock;
+        if(file >> stock) {
+            //add all successfully read stocks
+            list.push_back(stock);
+        }
+    }
+
+    //close the file
+    file.close();
+*/
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{buysell.cpp Save}
+\begin{adjustbox}{max totalheight=0.90\textheight}
+\begin{BVerbatim}
+//save the file to disk
+void save(vector<Stock> &list) 
+{
+/*
+    //open the file
+    ofstream file;
+    file.open("STOCK.LST");
+    if(not file) {
+        //handle error
+        cout << "Could not open file for writing." << endl;
+        return;
+    }
+
+    //write the list to the file
+    for(auto itr = list.begin(); itr != list.end(); itr++) {
+        file << *itr << endl;
+    }
+
+    //close the file
+    file.close();
+    */
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+\end{document}
