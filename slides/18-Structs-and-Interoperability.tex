@@ -1,0 +1,334 @@
+\documentclass[]{beamer}
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+  \definecolor{mcgarnet}{rgb}{0.38, 0, 0.08}
+  \definecolor{mcgray}{rgb}{0.6, 0.6, 0.6}
+  \setbeamercolor{structure}{fg=mcgarnet,bg=mcgray}
+  %\setbeamercovered{transparent}
+}
+
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{adjustbox}
+
+\newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
+
+\title{18 - Structs and Interoperability}
+
+
+\author{Dr. Robert Lowe\\}
+
+\institute[Maryville College] % (optional, but mostly needed)
+{
+  Division of Mathematics and Computer Science\\
+  Maryville College
+}
+
+\date[]{}
+\subject{}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/Maryville-College}
+\logo{\pgfuseimage{university-logo}}
+
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Sorting and Searching}
+\begin{frame}[fragile]{Sorting}
+    \begin{itemize}[<+->]
+        \item Change into \texttt{labs/week11}
+        \item Open \texttt{buysell.cpp}
+        \item Find the following line:
+            \newline\verb!//sort(list.begin(), list.end());!
+        \item Uncomment the line:
+            \newline\verb!sort(list.begin(), list.end());!
+        \item Now, try to compile your program.
+        \item What does the wall of text that you received tell you?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Operators and Functions}
+    \begin{itemize}[<+->]
+        \item The STL \texttt{sort} method uses the less than operator
+            to compare objects.
+        \item \texttt{Stock} structures cannot be compared this way.
+            Why?
+        \item Luckily there is a way we can do this!
+        \item First, let's take a look at the general form of this
+            operator:
+            \newline\verb!lhs < rhs!
+        \item We could view this as a function:
+            \newline\verb!<(lhs, rhs)!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Overloading Operators}
+    \begin{itemize}[<+->]
+        \item C++ allows us to create \textbf{overloaded operators}.
+        \item Essentially, this lets us define operators for our
+            custom types, like \texttt{Stock}.
+        \item We can define a < operator for \texttt{Stock} like so:
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+//stock comparison
+bool operator<(const Stock &lhs, const Stock &rhs)
+{
+    return lhs.stock_symbol < rhs.stock_symbol;
+}
+        \end{BVerbatim}
+        \end{adjustbox}
+        \item Be sure to add a function prototype for your operator in
+            the proper section of your file.
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+bool operator<(const Stock &lhs, const Stock &rhs);
+        \end{BVerbatim}
+        \end{adjustbox}
+        \item Now, compile and test your program.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Operator Overloading Rules}
+    \begin{itemize}[<+->]
+        \item The basic pattern for operator overloading is this:
+            \newline \textit{return-type} \texttt{operator}\textit{symbol}( \textit{parameters} )
+        \item You cannot overload the following operators:
+            \begin{itemize}
+                \item \texttt{::}
+                \item \texttt{.}
+                \item \texttt{.*}
+            \end{itemize}
+        \item Some operators have special rules (more on this next semester).
+        \item At least one parameter to the operator must be a custom
+            made type (a \texttt{struct} or a \texttt{class}).
+        \item Operators should be made to behave as they would by default.
+        \item The idea is to better express intent, so overloaded operators
+            should elucidate, not obfuscate.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Selling Again}
+\begin{adjustbox}{max width=0.9\textwidth}
+\begin{BVerbatim}
+//sell a stock
+void sell(vector<Stock> &list)
+{
+    //ask the user for the stock
+    string stock;
+    cout << "Which stock do you want to sell? ";
+    cin >> stock;
+    
+    //find the stock
+    auto itr = find(list.begin(), list.end(), stock);
+
+    //if the stock is in the list, remove
+    //otherwise print an error message
+    if(itr != list.end()) {
+        list.erase(itr);
+    } else {
+        cout << "Could not find stock." << endl;
+    }
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{The Problem Here}
+    \begin{itemize}[<+->]
+        \item When we compile this, \texttt{g++} freaks out once more!
+        \item Here, the trouble is this line:
+            \newline\verb!auto itr = find(list.begin(), list.end(), stock);!
+        \item This is a little bit different.  What are the data types
+            and operation in use?
+        \item The following operator will help us!
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+bool operator==(const Stock &lhs, const string &rhs)
+{
+    return lhs.stock_symbol == rhs;
+}
+        \end{BVerbatim}
+        \end{adjustbox}
+        \item Note the types of the operands!
+        \item Also, don't forget the prototype:
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+bool operator==(const Stock &lhs, const string &rhs);
+        \end{BVerbatim}
+        \end{adjustbox}
+    \end{itemize}
+\end{frame}
+
+
+\section{Interacting With Files}
+\begin{frame}{Storing Structures in Files}
+    \begin{itemize}[<+->]
+        \item We need a file format that lets us save and restore
+            a \texttt{struct}.
+        \item The most common way is to simply put each field on
+            a line by itself.
+        \item We just have to make sure to read the fields in the same
+            order we write them.
+        \item Will this work for \texttt{Stock} variables?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Saving Stocks}
+\begin{adjustbox}{max totalheight=0.9\textheight}
+\begin{BVerbatim}
+//save the file to disk
+void save(vector<Stock> &list) 
+{
+    //open the file
+    ofstream file;
+    file.open("STOCK.LST");
+    if(not file) {
+        //handle error
+        cout << "Could not open file for writing." << endl;
+        return;
+    }
+
+    //write the list to the file
+    for(auto itr = list.begin(); itr != list.end(); itr++) {
+        file << *itr << endl;
+    }
+
+    //close the file
+    file.close();
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+
+\begin{frame}[fragile]{File Stream Insertion Operator}
+    \begin{itemize}[<+->]
+        \item We need an insertion operator!
+        \item Is there anything special about insertion operators?
+        \item NO! 
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+ofstream& operator<<(ofstream &file, const Stock &stock)
+{
+    file << stock.company_name << endl
+         << stock.stock_symbol << endl
+         << stock.price << endl
+         << stock.quantity << endl;
+
+    return file;
+}
+        \end{BVerbatim}
+        \end{adjustbox}
+
+        \item Don't forget your prototype!
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+ofstream& operator<<(ofstream &file, const Stock &stock);
+        \end{BVerbatim}
+        \end{adjustbox}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Loading Structs}
+\begin{adjustbox}{max totalheight=0.9\textheight}
+\begin{BVerbatim}
+//load the stocks from disk
+void load(vector<Stock> &list)
+{
+    //open the file
+    ifstream file;
+    file.open("STOCK.LST");
+    if(not file) {
+        //return if the file does not exist
+        return;
+    }
+
+    //read to the end of the file
+    while(not file.eof()) {
+        Stock stock;
+        if(file >> stock) {
+            //add all successfully read stocks
+            list.push_back(stock);
+        }
+    }
+
+    //close the file
+    file.close();
+}
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Extraction Operator}
+    \begin{itemize}[<+->]
+        \item We need an extraction operator!
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+ifstream& operator>>(ifstream &file, Stock &stock)
+{
+    file >> stock.company_name
+         >> stock.stock_symbol
+         >> stock.price
+         >> stock.quantity;
+
+    return file;
+}
+        \end{BVerbatim}
+        \end{adjustbox}
+        \item And its prototype:
+        \begin{adjustbox}{max width=0.9\textwidth}
+        \begin{BVerbatim}
+ifstream& operator>>(ifstream &file, Stock &stock);
+        \end{BVerbatim}
+        \end{adjustbox}
+        \item And with that, the program should be fully functional
+            once more!
+    \end{itemize}
+\end{frame}
+
+\end{document}
+
+
