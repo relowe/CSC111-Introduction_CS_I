@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass[]{beamer}
 \mode<presentation>
 {
   \usetheme{Warsaw}
@@ -15,10 +15,12 @@
 \usepackage[T1]{fontenc}
 \usepackage{tikz}
 \usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{fancyvrb}
 
 \newcommand{\imagesource}[1]{{\centering\hfill\break\hbox{\scriptsize Image Source:\thinspace{\small\itshape #1}}\par}}
 
-\title{Beamer Template for MC}
+\title{19 - Classy Programming}
 
 
 \author{Dr. Robert Lowe\\}
@@ -73,47 +75,285 @@
 % - If you omit details that are vital to the proof/implementation,
 %   just say so once. Everybody will be happy with that.
 
-\section{}
-\begin{frame}
-  \frametitle{Normal Frame}
-  \begin{itemize}
-    \item item 1
-    \item item 2
-  \end{itemize}
+\section{Objects and Classes}
+
+\begin{frame}{Bundling Variables}
+    \begin{itemize}[<+->]
+        \item \texttt{struct}s provide us with a way to ``bundle''
+            several fields.
+        \item This is useful for maintaining \textbf{state} of a composite
+            type.
+        \item But what if there was another layer of abstraction?
+    \end{itemize}
 \end{frame}
 
+\begin{frame}{Objects}
+    \begin{itemize}[<+->]
+        \item An \textbf{object} is an entity with both state and
+            behavior.
+        \item In addition to fields, objects have their own functions.
+        \item The basic idea is to have something in a program that
+            both ``remembers'' and ``acts''.
+        \item Objects provide a way to model real world entities
+            within a program.
+    \end{itemize}
+\end{frame}
 
-\begin{frame}[fragile]
-  \frametitle{code frame}
-  \begin{block}{multsh}
-\begin{verbatim}
+\begin{frame}{Object Example}
+    \begin{itemize}[<+->]
+        \item Suppose we encountered a soda machine.
+        \item What could we do with it?
+        \begin{itemize}
+            \item Insert Money
+            \item Push Buttons
+            \item Pull Change Return
+        \end{itemize}
+        \item What sort of internal state does the machine have?
+        \begin{itemize}
+            \item Money Deposited
+            \item Money in the Vault
+            \item Price, Quantity, and Brand of Each Soda
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Classes}
+    \begin{itemize}[<+->]
+        \item Classes define objects.
+        \item An object is an instance of a class.
+        \item The basic elements of a class are:
+        \begin{itemize}[<+->]
+            \item Constructors 
+            \item Member Variable Declarations ({\em state})
+            \item Member Functions ({\em behavior})
+        \end{itemize}
+        \item Note that sometimes, member variables are called
+            \textbf{attributes} and member functions are called
+            \textbf{methods}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Constructors}
+    \begin{itemize}[<+->]
+        \item A constructor is a block of code that is executed when
+            we make an object.
+        \item The job of the constructor is to initialize the class.
+        \item In C++ a constructor has the same name as its class.
+        \item Constructors are declared like functions, but they have
+            no return type.
+        \item A constructor can take parameters, just like a function.
+        \item A class may have multiple constructors (more on this
+            later).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Member Variables}
+    \begin{itemize}[<+->]
+        \item Member variables maintain the state of objects.
+        \item Each object has its own set of member variables.
+        \item These are somewhat analogous to the fields in a struct.
+        \item Member variables should be accessible only to the class's
+            code.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Member Functions}
+    \begin{itemize}[<+->]
+        \item Member functions provide the behavior of objects.
+        \item Member functions operate on the member variables of an
+            object.
+        \item The member variables are always in scope within a member
+            function.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Controlling Access}
+    \begin{itemize}[<+->]
+        \item Classes also allow us to control who has access to the
+            members of the class.
+        \item In C++, the access levels are:
+            \begin{description}
+                \item[public] - Public members are accessible
+                    by all code.
+                \item[private] - Private members are accessible only
+                    by code within the class.
+                \item[protected] - Protected members are accessible
+                    only by code within the class or any subclass
+                    (more about this later).
+            \end{description}
+        \item As a general rule, all member variables should be
+            \textbf{private}.
+        \item Constructors and member functions should usually be
+            \textbf{public}.  
+        \item Why do you think this is?
+    \end{itemize}
+\end{frame}
+
+\section{Classes and Objects in C++}
+
+\begin{frame}[fragile]{Class Definitions in C++}
+\begin{BVerbatim}
+class Name
+{
+public:
+    //Public Members go here
+private:
+   //Private Members go here
+};
+\end{BVerbatim}
+
+\begin{itemize}[<+(1)->]
+    \item Class definitions typically go in header files.
+    \item They contain function prototypes, constructor prototypes,
+        and member variable declarations.
+    \item Class names should begin with an upper case letter to set
+        them apart from variable names.
+    \item Defining a class creates a new type (just like with
+        \texttt{struct}.)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{examples/19-Classy/soda-machine.h}}
+\begin{adjustbox}{max totalheight=0.8\textheight}
+\begin{BVerbatim}
+#ifndef SODA_H
+#define SODA_H
+
+class Soda_Machine
+{
+public:
+    //constructor
+    Soda_Machine();
+
+    //deposit money into the machine
+    void insert_money(double amount);
+
+    //pull the change return, returning the deposited change
+    double change_return();
+
+    //push a button, the return value is any message the machine gives
+    //in response
+    std::string push_button(int button);
+
+private:
+    std::vector<std::string> brand; //brands for the buttons
+    std::vector<double> price;      //prices of each soda
+    std::vector<int> quantity;      //the quantity of each soda
+    double deposit;
+    double vault;
+
+    //dispense a soda
+    void vend(int slot);
+};
+#endif
+\end{BVerbatim}
+\end{adjustbox}
+\end{frame}
+
+\begin{frame}[fragile]{Conditional Compilation}
+\begin{BVerbatim}
+#ifndef SODA_H
+#define SODA_H
 ...
-#start the scr server
-busybox telnetd -p 1337 -l multsh-login
+#endif
+\end{BVerbatim}
 
-#start the screen session
-screen -S multsh
-
-#shutdown once screen exits
-killall busybox
-\end{verbatim}
-  \end{block}
+\begin{itemize}[<+->]
+    \item Multiple definition of classes (and structs) is not allowed.
+    \item A header file may be included more than once.
+    \item Wrapping the header contents as above makes the preprocessor
+        include the contents only one time.
+    \item Always do this with C/C++ header files for safety!
+\end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Implementation of Classes}
+\begin{BVerbatim}
+//deposit money into the machine
+void Soda_Machine::insert_money(double amount)
+{
+    deposit += amount;
+}
+\end{BVerbatim}
 
-\begin{frame}
-  \frametitle{multicolumn}
-  \begin{columns}
-  \column{0.5\textwidth}
-  \begin{block}{left}
-  \end{block}
-  \column{0.5\textwidth}
-  \begin{block}{right}
-  \end{block}
-  \end{columns}
+\begin{itemize}[<+->]
+    \item Class methods are typically implemented in a cpp file.
+    \item Method names are prefixed with the name of the class and the
+        scope resolution modifier.
+    \item The same is true of constructors.
+    \item Take a look in \texttt{soda-machine.cpp} to see this in
+        action.
+\end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{Using Objects}
+    \begin{itemize}[<+->]
+        \item Take a look at \texttt{sodasim.cpp} to see how we use
+            a class.
+        \item First, we must make an object. This is called
+            \textbf{instantiation} of the class.
+            \newline\verb!Soda_Machine machine;  //the machine!
+        \item We can interact with the object using its member
+            functions:
+            \newline\verb!machine.insert_money(money);!
+        \item Take a look at the rest of the \texttt{main} function to
+            see how it interacts with our machine. Isn't the realism
+            thrilling?
+        \item Compile the program using the following command:
+            \newline\verb!g++ sodasim.cpp soda-machine.cpp -o sodasim!
+        \item Play with it and see what it does.
+    \end{itemize}
+\end{frame}
 
+\begin{frame}{Best Practices Recap}
+    \begin{itemize}[<+->]
+        \item A class name should begin with a capital letter.
+        \item Each class should be created in two files:
+            \begin{itemize}
+                \item A header file (definition)
+                \item A cpp file (implementation)
+            \end{itemize}
+        \item Member variables should be private.
+        \item Member methods should usually be public.
+        \item Constructors should usually be public.
+        \item Always provide a constructor.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Finishing the Program}
+    \begin{enumerate}
+        \item Make the directory \texttt{labs/week12}
+        \item From your \texttt{cs1} directory, copy all of the files
+            like this:
+            \newline\verb!cp examples/19-Classy/* labs/week12!
+        \item Implement the rest of the class.  
+        \item Implement button pushing in \texttt{sodasim.cpp}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Button Pushing Pseudocode}
+    \begin{BVerbatim}
+push_button(button) 
+    if deposit >= cost of the soda 
+        if that soda is sold out
+          return "Sold Out"
+        else 
+          vend the soda
+    else if soda is sold out
+      return "Sold Out"
+    else
+      return The brand and the cost of soda
+    \end{BVerbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Vending Pseudocode}
+    \begin{BVerbatim}
+vend(soda)
+   Subtract 1 from the available quantity of soda
+   move the cost of the soda to the vault
+   print a message indicating vending and brand
+    \end{BVerbatim}
+\end{frame}
 \end{document}
 
 
